@@ -14,19 +14,23 @@ def driver(request):
     request.addfinalizer(wd.quit)
     return wd
 
-def test_example(driver):
-    driver.get('https://www.google.ru/?hl=ru')
-    driver.find_element(By.NAME, "q").send_keys('webdriver')
-    button = driver.find_element(By.NAME, "btnK")
-    time.sleep(3)
+def metod(driver):
+    driver.get('http://localhost/litecart/public_html/admin/login.php')
+
+    driver.find_element(By.NAME, "username").send_keys('admin')
+    driver.find_element(By.NAME, "password").send_keys('admin')
+    button = driver.find_element(By.NAME, "login")
     button.click()
-    time.sleep(3)
-    WebDriverWait(driver, 10).until(EC.title_is("webdriver - Поиск в Google"))
+    sidebar = driver.find_element(By.ID, "box-apps-menu")
+    elements = sidebar.find_elements(By.ID, "app")
+    for item in range (0, len(elements)):
+        item.click()
+
 
 
 if __name__ == '__main__':
-    print('PyCharm1')
-
+    #print('PyCharm1')
+    metod()
 #     wd.get("https://www.google.com/")
 #     q = wd.find_element(By.NAME, "q")
 #     q.send_keys("webdriver")
