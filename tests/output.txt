@@ -1,12 +1,12 @@
-
-number of stickers are 11NEW
-number of stickers are 11SALE
-number of stickers are 11NEW
-number of stickers are 11NEW
-number of stickers are 11NEW
-number of stickers are 11SALE
-number of stickers are 11SALE
-number of stickers are 11NEW
-number of stickers are 11NEW
-number of stickers are 11NEW
-number of stickers are 11NEW
+1
+number of products are 11NEW1
+number of products are 11NEW1
+number of products are 11NEW1
+number of products are 11NEW1
+number of products are 11SALE1
+number of products are 11SALE1
+number of products are 11SALE1
+number of products are 11NEW1
+number of products are 11NEW1
+number of products are 11NEW1
+number of products are 11NEW1

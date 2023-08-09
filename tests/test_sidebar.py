@@ -32,12 +32,13 @@ def test_login(driver):
     for countI in range (0, len(sidebar)):
         sidebar = driver.find_elements(By.XPATH, ".//*[@id='app-']")
         sidebar[countI].click()
+        h1label = driver.find_element(By.XPATH, "//*[@id='content']/h1")
         submenu = driver.find_elements(By.XPATH, "//*[@id='app-']/ul/li")
         for countJ in range(0, len(submenu)):
             submenu = driver.find_elements(By.XPATH, "//*[@id='app-']/ul/li")
             submenu[countJ].click()
             h1label = driver.find_element(By.XPATH, "//*[@id='content']/h1")
-            EC.visibility_of_element_located(h1label)
+
 
 
 
