@@ -1,5 +1,6 @@
 import time
 
+import re
 import pytest
 from selenium import webdriver
 from selenium.webdriver import Chrome
@@ -34,24 +35,41 @@ def test_login(driver):
     Color_MainPageProductRegularPrice = MainPageProductRegularPrice.value_of_css_property("color")
     Color_MainPageProductCampaignPrice = MainPageProductCampaignPrice.value_of_css_property("color")
 
-    #Проверка, что цвета совпадают с ожидаемыми. Для этого беру эталонный цвет и сравниваю с полученным в hex
-    hexGray = Color.from_string(Color_MainPageProductRegularPrice).hex
-    hexRed = Color.from_string(Color_MainPageProductCampaignPrice).hex
-    assert hexGray == "#777777"
-    assert hexRed == "#cc0000"
+    FontSize_MainPageProductRegularPrice = MainPageProductRegularPrice.value_of_css_property("font-size")
+    FontSize_MainPageProductCampaignPrice = MainPageProductCampaignPrice.value_of_css_property("font-size")
+    print("Размер шрифта обычной цены" + FontSize_MainPageProductRegularPrice)
+    print("Размер шрифта акционной цены" + FontSize_MainPageProductCampaignPrice)
+
 
     #Проверка, что акционная цена больше по размерам
     print(New_Size)
     print(Old_Size)
     assert New_Size.get("height") > Old_Size.get("height")
     assert New_Size.get("width") > Old_Size.get("width")
+
+    #Проверка по размеру шрифта
+    assert FontSize_MainPageProductCampaignPrice > FontSize_MainPageProductRegularPrice
+
     #Проверка, что стандартная цена перечеркнута
     assert Decor_RegularPrice == "line-through"
 
-
+    #Проверка, что цвета совпадают с ожидаемыми.
     print(MainPageProductName)
     print(Color_MainPageProductRegularPrice)
+    RGB_RegularPrice = re.findall(r'\d+', Color_MainPageProductRegularPrice)
+    #del RGB_RegularPrice[-1:]
+    RGB_RegularPrice = list(map(int, RGB_RegularPrice))
+    print(RGB_RegularPrice)
+    assert RGB_RegularPrice[0] == RGB_RegularPrice[1] == RGB_RegularPrice[2]
+
+
     print(Color_MainPageProductCampaignPrice)
+    RGB_CampaignPrice = re.findall(r'\d+', Color_MainPageProductCampaignPrice)
+    #del RGB_CampaignPrice[-1:]
+    RGB_CampaignPrice = list(map(int, RGB_CampaignPrice))
+    print(RGB_CampaignPrice)
+    assert RGB_CampaignPrice[0] > RGB_CampaignPrice[1] & RGB_CampaignPrice[1] == RGB_CampaignPrice[2] == 0
+
     print(Decor_RegularPrice)
     MainPageProduct.click()
     time.sleep(3)
@@ -65,15 +83,34 @@ def test_login(driver):
     Color_ProductPageProductRegularPrice = ProductPageProductRegularPrice.value_of_css_property("color")
     Color_ProductPageProductCampaignPrice = ProductPageProductCampaignPrice.value_of_css_property("color")
 
+    FontSize_ProductPageProductRegularPrice = ProductPageProductRegularPrice.value_of_css_property("font-size")
+    FontSize_ProductPageProductCampaignPrice = ProductPageProductCampaignPrice.value_of_css_property("font-size")
+    print("Размер шрифта обычной цены на странице продукта" + FontSize_ProductPageProductRegularPrice)
+    print("Размер шрифта акционной цены на странице продукта" + FontSize_ProductPageProductCampaignPrice)
+
+    #Проверка по размеру шрифта
+    assert FontSize_ProductPageProductCampaignPrice > FontSize_ProductPageProductRegularPrice
+
     #Проверка на то, что текст выделен жирным (bold = 700)
     Weight_ProductPageProductCampaignPrice = ProductPageProductCampaignPrice.value_of_css_property("font-weight")
     assert Weight_ProductPageProductCampaignPrice == "700"
 
-    #Проверка, что цвета совпадают с ожидаемыми. Для этого беру эталонный цвет и сравниваю с полученным в hex
-    ProducthexGray = Color.from_string(Color_ProductPageProductRegularPrice).hex
-    ProducthexRed = Color.from_string(Color_ProductPageProductCampaignPrice).hex
-    assert ProducthexGray == "#666666"
-    assert ProducthexRed == "#cc0000"
+    #Проверка, что цвета совпадают с ожидаемыми.
+
+    print(Color_ProductPageProductRegularPrice)
+    RGB_ProductRegularPrice = re.findall(r'\d+', Color_ProductPageProductRegularPrice)
+    #del RGB_RegularPrice[-1:]
+    RGB_ProductRegularPrice = list(map(int, RGB_ProductRegularPrice))
+    print(RGB_ProductRegularPrice)
+    assert RGB_ProductRegularPrice[0] == RGB_ProductRegularPrice[1] == RGB_ProductRegularPrice[2]
+
+    print(Color_ProductPageProductCampaignPrice)
+    RGB_ProductCampaignPrice = re.findall(r'\d+', Color_ProductPageProductCampaignPrice)
+    #del RGB_CampaignPrice[-1:]
+    RGB_ProductCampaignPrice = list(map(int, RGB_ProductCampaignPrice))
+    print(RGB_ProductCampaignPrice)
+    assert RGB_ProductCampaignPrice[0] > RGB_ProductCampaignPrice[1] & RGB_ProductCampaignPrice[1] == RGB_ProductCampaignPrice[2] == 0
+
 
     Old_Price1 = ProductPageProductRegularPrice.text
     New_Price1 = ProductPageProductCampaignPrice.text
