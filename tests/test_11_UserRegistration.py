@@ -23,7 +23,7 @@ def driver(request):
     return wd
 
 def test_login(driver):
-
+    wait = WebDriverWait(driver, 10)
     driver.get('http://localhost/litecart/public_html/en/create_account')
     FirstName = driver.find_element(By.NAME, "firstname")
     LastName = driver.find_element(By.NAME, "lastname")
@@ -60,13 +60,12 @@ def test_login(driver):
 
     CreateButton = driver.find_element(By.NAME, "create_account")
     CreateButton.click()
-    time.sleep(5)
-
+    wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "#box-account > div > ul > li:nth-child(4) > a")))
     #logout
 
     LogoutButton = driver.find_element(By.CSS_SELECTOR, "#box-account > div > ul > li:nth-child(4) > a")
     LogoutButton.click()
-    time.sleep(5)
+    wait.until(EC.visibility_of_element_located((By.NAME, "email")))
     #Login
 
     LoginEmail = driver.find_element(By.NAME, "email")
@@ -75,9 +74,8 @@ def test_login(driver):
     LoginPassword.send_keys("qwerty")
     LoginButton = driver.find_element(By.NAME, "login")
     LoginButton.click()
-    time.sleep(5)
+    wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "#box-account > div > ul > li:nth-child(4) > a")))
 
     #Logout2
     LogoutButton = driver.find_element(By.CSS_SELECTOR, "#box-account > div > ul > li:nth-child(4) > a")
     LogoutButton.click()
-    time.sleep(5)

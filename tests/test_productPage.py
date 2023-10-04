@@ -21,7 +21,7 @@ def driver(request):
     return wd
 
 def test_login(driver):
-
+    wait = WebDriverWait(driver, 10)
     driver.get('http://localhost/litecart/public_html/en/')
     MainPageProduct = driver.find_element(By.CSS_SELECTOR, "#box-campaigns .product")
     MainPageProductName = driver.find_element(By.CSS_SELECTOR, "#box-campaigns .product:first-child [class=name]").text
@@ -72,11 +72,10 @@ def test_login(driver):
 
     print(Decor_RegularPrice)
     MainPageProduct.click()
-    time.sleep(3)
 
-
-
+    wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "#box-product .title")))
     ProductPageProductName = driver.find_element(By.CSS_SELECTOR, "#box-product .title").text
+
     ProductPageProductRegularPrice = driver.find_element(By.CSS_SELECTOR, ".regular-price")
     ProductPageProductCampaignPrice = driver.find_element(By.CSS_SELECTOR, ".campaign-price")
     Decor_ProductRegularPrice = ProductPageProductRegularPrice.value_of_css_property("text-decoration-line")
