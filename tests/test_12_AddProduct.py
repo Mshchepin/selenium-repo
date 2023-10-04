@@ -31,7 +31,7 @@ def test_login(driver):
     driver.find_element(By.NAME, "password").send_keys('admin')
     button = driver.find_element(By.NAME, "login")
     button.click()
-    time.sleep(5)
+    wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "#content .button:last-child")))
     AddProductButton = driver.find_element(By.CSS_SELECTOR, "#content .button:last-child")
     AddProductButton.click()
     CurrentName = "Test Product" + str(datetime.now())
@@ -52,7 +52,7 @@ def test_login(driver):
 
     Information = driver.find_element(By.CSS_SELECTOR, "#content > form > div > ul > li:nth-child(2) > a")
     Information.click()
-    time.sleep(5)
+    wait.until(EC.visibility_of_element_located((By.NAME, "manufacturer_id")))
     Manufacturer = driver.find_element(By.NAME, "manufacturer_id")
     Manufacturer.click()
     ACMECorp = driver.find_element(By.CSS_SELECTOR, "#tab-information > table > tbody [value = '1']")
@@ -67,7 +67,7 @@ def test_login(driver):
 
     Prices = driver.find_element(By.CSS_SELECTOR, "#content > form > div > ul > li:nth-child(4) > a")
     Prices.click()
-    time.sleep(5)
+    wait.until(EC.visibility_of_element_located((By.NAME, "purchase_price")))
 
     PurchasePrice = driver.find_element(By.NAME, "purchase_price")
     PurchasePrice.clear()
@@ -85,9 +85,8 @@ def test_login(driver):
 
     SaveButton = driver.find_element(By.NAME, "save")
     SaveButton.click()
-    time.sleep(5)
+    wait.until(EC.visibility_of_element_located((By.XPATH, "//a[text()='" + CurrentName + "']")))
     AddedProduct = driver.find_element(By.XPATH, "//a[text()='" + CurrentName + "']")
     AddedProduct.click()
-    time.sleep(5)
-    #Удалить добавленный продукт
+
 
