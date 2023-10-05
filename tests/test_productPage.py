@@ -37,8 +37,16 @@ def test_login(driver):
 
     FontSize_MainPageProductRegularPrice = MainPageProductRegularPrice.value_of_css_property("font-size")
     FontSize_MainPageProductCampaignPrice = MainPageProductCampaignPrice.value_of_css_property("font-size")
-    print("Размер шрифта обычной цены" + FontSize_MainPageProductRegularPrice)
-    print("Размер шрифта акционной цены" + FontSize_MainPageProductCampaignPrice)
+
+    FontSize_MainPageProductRegularPrice = re.findall(r'\d+\.\d+', FontSize_MainPageProductRegularPrice)
+    FontSize_MainPageProductCampaignPrice = re.findall(r'\d+', FontSize_MainPageProductCampaignPrice)
+
+    FontSize_MainPageProductRegularPrice = list(map(float, FontSize_MainPageProductRegularPrice))
+    FontSize_MainPageProductCampaignPrice = list(map(int, FontSize_MainPageProductCampaignPrice))
+
+
+    print("Размер шрифта обычной цены" + str(FontSize_MainPageProductRegularPrice))
+    print("Размер шрифта акционной цены" + str(FontSize_MainPageProductCampaignPrice))
 
 
     #Проверка, что акционная цена больше по размерам
@@ -48,7 +56,7 @@ def test_login(driver):
     assert New_Size.get("width") > Old_Size.get("width")
 
     #Проверка по размеру шрифта
-    assert FontSize_MainPageProductCampaignPrice > FontSize_MainPageProductRegularPrice
+    assert FontSize_MainPageProductCampaignPrice[0] > FontSize_MainPageProductRegularPrice[0]
 
     #Проверка, что стандартная цена перечеркнута
     assert Decor_RegularPrice == "line-through"
@@ -84,11 +92,19 @@ def test_login(driver):
 
     FontSize_ProductPageProductRegularPrice = ProductPageProductRegularPrice.value_of_css_property("font-size")
     FontSize_ProductPageProductCampaignPrice = ProductPageProductCampaignPrice.value_of_css_property("font-size")
-    print("Размер шрифта обычной цены на странице продукта" + FontSize_ProductPageProductRegularPrice)
-    print("Размер шрифта акционной цены на странице продукта" + FontSize_ProductPageProductCampaignPrice)
+
+
+    FontSize_ProductPageProductRegularPrice = re.findall(r'\d+', FontSize_ProductPageProductRegularPrice)
+    FontSize_ProductPageProductCampaignPrice = re.findall(r'\d+', FontSize_ProductPageProductCampaignPrice)
+
+    FontSize_ProductPageProductRegularPrice = list(map(float, FontSize_ProductPageProductRegularPrice))
+    FontSize_ProductPageProductCampaignPrice = list(map(int, FontSize_ProductPageProductCampaignPrice))
+
+    print("Размер шрифта обычной цены на странице продукта" + str(FontSize_ProductPageProductRegularPrice))
+    print("Размер шрифта акционной цены на странице продукта" + str(FontSize_ProductPageProductCampaignPrice))
 
     #Проверка по размеру шрифта
-    assert FontSize_ProductPageProductCampaignPrice > FontSize_ProductPageProductRegularPrice
+    assert FontSize_ProductPageProductCampaignPrice[0] > FontSize_ProductPageProductRegularPrice[0]
 
     #Проверка на то, что текст выделен жирным (bold = 700)
     Weight_ProductPageProductCampaignPrice = ProductPageProductCampaignPrice.value_of_css_property("font-weight")
