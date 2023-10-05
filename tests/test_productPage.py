@@ -97,7 +97,7 @@ def test_login(driver):
     FontSize_ProductPageProductRegularPrice = re.findall(r'\d+', FontSize_ProductPageProductRegularPrice)
     FontSize_ProductPageProductCampaignPrice = re.findall(r'\d+', FontSize_ProductPageProductCampaignPrice)
 
-    FontSize_ProductPageProductRegularPrice = list(map(float, FontSize_ProductPageProductRegularPrice))
+    FontSize_ProductPageProductRegularPrice = list(map(int, FontSize_ProductPageProductRegularPrice))
     FontSize_ProductPageProductCampaignPrice = list(map(int, FontSize_ProductPageProductCampaignPrice))
 
     print("Размер шрифта обычной цены на странице продукта" + str(FontSize_ProductPageProductRegularPrice))
