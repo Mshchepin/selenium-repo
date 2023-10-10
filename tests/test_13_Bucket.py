@@ -33,36 +33,53 @@ def test_login(driver):
         Product.click()
         wait.until(EC.visibility_of_element_located((By.NAME, "add_cart_product")))
 
-        try:
-            driver.find_element(By.NAME, "options[Size]").is_displayed()
-        except NoSuchElementException:
-            print("The element does not exist.")
-        else:
+        if len(driver.find_elements(By.NAME, "options[Size]")) > 0:
             Size = driver.find_element(By.NAME, "options[Size]")
             Size.click()
             Small = driver.find_element(By.CSS_SELECTOR, "#box-product select > option:nth-child(2)")
             Small.click()
             print("Есть Size")
 
+        #try:
+        #    driver.find_element(By.NAME, "options[Size]").is_displayed()
+        #except NoSuchElementException:
+        #   print("The element does not exist.")
+        #else:
+        #    Size = driver.find_element(By.NAME, "options[Size]")
+        #   Size.click()
+        #    Small = driver.find_element(By.CSS_SELECTOR, "#box-product select > option:nth-child(2)")
+        #    Small.click()
+        #    print("Есть Size")
+
         AddToCartButton = driver.find_element(By.NAME, "add_cart_product")
         AddToCartButton.click()
         wait.until(EC.text_to_be_present_in_element((By.CSS_SELECTOR, "#cart > a.content > span.quantity"), str(i)))
-        print(driver.find_element(By.CSS_SELECTOR, "#cart > a.content > span.quantity"))
         HomeButton = driver.find_element(By.CSS_SELECTOR, "#site-menu > ul > li.general-0 > a > i")
         HomeButton.click()
+    wait.until(EC.text_to_be_present_in_element((By.CSS_SELECTOR, "#cart > a.content > span.quantity"), "3"))
     CheckoutButton = driver.find_element(By.CSS_SELECTOR, "#cart > a.link")
     CheckoutButton.click()
-    wait.until(EC.element_to_be_clickable((By.NAME, "remove_cart_item")))
-    time.sleep(2)
+    wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "#order_confirmation-wrapper > table > tbody > tr:nth-child(2)")))
+
+    FirstElement = driver.find_element(By.CSS_SELECTOR, "#box-checkout-cart > ul > li:nth-child(1) > a")
+    FirstElement.click()
     while len(driver.find_elements(By.CSS_SELECTOR, "#order_confirmation-wrapper > table > tbody > tr:nth-child(2)")) > 0:
-        wait.until(EC.element_to_be_clickable((By.NAME, "remove_cart_item")))
+        wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "#order_confirmation-wrapper > table > tbody > tr:nth-child(2)")))
+        #wait.until(EC.element_to_be_clickable((By.NAME, "remove_cart_item"))).click()
         RemoveButton = driver.find_element(By.NAME, "remove_cart_item")
         RemoveButton.click()
         print("Deleted")
-        time.sleep(2)
-    wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "#checkout-cart-wrapper > p:nth-child(1) > em")))
+        time.sleep(1)
+        if len(driver.find_elements(By.NAME, "remove_cart_item")) > 0:
+            wait.until(EC.visibility_of_element_located(
+                (By.CSS_SELECTOR, "#order_confirmation-wrapper > table > tbody > tr:nth-child(2)")))
+        else:
+            wait.until(
+                EC.visibility_of_element_located((By.CSS_SELECTOR, "#checkout-cart-wrapper > p:nth-child(1) > em")))
+    #wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "#checkout-cart-wrapper > p:nth-child(1) > em")))
     #assert len(driver.find_elements(By.CSS_SELECTOR, "#order_confirmation-wrapper > table > tbody > tr:nth-child(2)")) == 0
 
 
+    #    wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "#checkout-cart-wrapper > p:nth-child(1) > em", "#order_confirmation-wrapper > form > div.confirm > p > button")))
 
 
