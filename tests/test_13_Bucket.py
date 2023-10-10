@@ -64,7 +64,7 @@ def test_login(driver):
     FirstElement = driver.find_element(By.CSS_SELECTOR, "#box-checkout-cart > ul > li:nth-child(1) > a")
     FirstElement.click()
     while len(driver.find_elements(By.CSS_SELECTOR, "#order_confirmation-wrapper > table > tbody > tr:nth-child(2)")) > 0:
-        wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "#order_confirmation-wrapper > table > tbody > tr:nth-child(2)")))
+        #wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "#order_confirmation-wrapper > table > tbody > tr:nth-child(2)")))
         #wait.until(EC.element_to_be_clickable((By.NAME, "remove_cart_item"))).click()
         RemoveButton = driver.find_element(By.NAME, "remove_cart_item")
         RemoveButton.click()
